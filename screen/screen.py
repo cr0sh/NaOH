@@ -6,7 +6,6 @@ class Screen:
 	frame = ttk.Frame()
 	def __init__(self):
 		self.frames = list()
-		print(str(Screen.root._w))
 		Screen.root.call('wm', 'iconbitmap', Screen.root._w, '-default', path.join(path.dirname(path.dirname(path.realpath(__file__))), 'icon.ico'))
 		Screen.root.iconbitmap(path.join(path.dirname(path.dirname(path.realpath(__file__))), 'icon.ico'))
 		Screen.frame.destroy()

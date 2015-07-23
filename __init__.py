@@ -1,1 +1,1 @@
-__all__ = ['logger', 'main', 'nacl_sock']
+__all__ = ['logger', 'main', 'global_var']

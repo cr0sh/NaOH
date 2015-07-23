@@ -1,21 +1,18 @@
 from tkinter.ttk import *
 from screen import *
-from nacl_sock import Nacl_sock
+from screen.splash import splashScreen
+from time import sleep
+from screen.console import consoleScreen
+from screen.launcher import launcherScreen
 
-cnts = sock = None
+def init():
+	launcherScreen()
+	screen.Screen.root.mainloop()
 
-def connect(addr, port, passwd):
-	global sock
-	if sock != None:
-		sock.close()
+if __name__ == '__main__':
+		init()
 
-	sock = Nacl_sock(addr, port)
-	if not sock.working:
-		return
-	sock.send('CONNECT ' + passwd)
-	response = sock.recv()
-	if response != 'ACCEPTED':
-		msgbox.Msgbox('HCl 서버에서 연결을 거부했습니다.\n\n(Tip: 비밀번호를 정확히 입력하셨나요?)')
+# with splashScreen('splash.gif'):
+# 	time.sleep(4)
 
-cnts = connection.ConnectionScreen(connect)
-screen.Screen.root.mainloop()
+# screen.Screen.root.mainloop()

@@ -1,1 +1,1 @@
-__all__ = ['screen', 'connection', 'msgbox']
+__all__ = ['msgbox', 'screen', 'splash']
