@@ -12,6 +12,7 @@ class Msgbox:
 		Label(self.frame, text=message).pack(side='top', expand='true')
 		self.callback=callback
 		Button(self.frame, text="확인", command=self.onPress).pack(expand='true')
+		tk.focus_force()
 
 	def onPress(self):
 		if self.callback != None:
