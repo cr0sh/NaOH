@@ -29,7 +29,8 @@ class launcherScreen(Screen):
 				loaded = False
 		else:
 			loaded = False
-
+		Screen.close()
+		Screen.reinit()
 		super().__init__()
 		Screen.title('NaOH launcher')
 		Screen.root.resizable(0, 0)

@@ -1,29 +1,25 @@
 from tkinter import *
 from os import path
+from time import sleep
 
 class splashScreen:
-	def __init__(self, img):
-		self.working = True
+	def __init__(self, delay):
 		self.root = Tk()
-		self.root.overrideredirect(True)
-		self.width = 515
-		self.height = 250
-		self.root.geometry('%dx%d+%d+%d' % (self.width, self.height, self.width, self.height))
-		self.image_file = path.join(path.dirname(path.dirname(path.realpath(__file__))), img)
-		self.root.protocol("WM_DELETE_WINDOW", self.on_quit)
-
-	def __enter__(self):
-		canvas = Canvas(self.root, height=self.height, width=self.width, bg="brown")
-		image = PhotoImage(master = canvas, height=self.height, width=self.width, file=self.image_file)
-		canvas.create_image(self.width/2, self.height/2, image=image)
-		canvas.pack()
-		# show the splash screen for 5000 milliseconds then destroy\
-		self.root.mainloop()
-
-	def on_quit(self):
-		self.__exit__()
-
-	def __exit__(self, *args):
-		if self.working:
-			self.root.destroy()
-			self.working = False
+		self.root.withdraw()
+		window = Toplevel(self.root)
+		canvas = Canvas(window)
+		splash = PhotoImage(master=window, file= path.join(path.dirname(path.dirname(path.realpath(__file__))), 'splash.gif'))
+		scrW = window.winfo_screenwidth()
+		scrH = window.winfo_screenheight()
+		imgW = splash.width()
+		imgH = splash.height()
+		Xpos = (scrW - imgW) // 2
+		Ypos = (scrH - imgH) // 2
+		window.overrideredirect(True)
+		window.geometry('+{}+{}'.format(Xpos, Ypos))
+		canvas.configure(width=imgW, height=imgH, highlightthickness=0)
+		canvas.grid()
+		canvas.create_image(imgW // 2, imgH // 2, image=splash)
+		window.update()
+		sleep(delay / 1000)
+		self.root.destroy()
