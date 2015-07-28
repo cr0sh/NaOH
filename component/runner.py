@@ -13,6 +13,7 @@ def bind(stdout, queue):
 
 class Runner:
 	def __init__(self, runtime, code, workdir):
+		self.workdir = workdir
 		self.launch(runtime, code, workdir)
 		consoleScreen(self)
 

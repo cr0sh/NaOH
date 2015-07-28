@@ -1,5 +1,6 @@
 import threading, sys, signal
 from .screen import Screen
+from .status import statusScreen
 from tkinter.ttk import *
 from tkinter import Listbox, Frame
 from os import read, write, kill, getpid
@@ -7,10 +8,16 @@ from .msgbox import Msgbox
 from time import sleep
 
 def asyncStream(scr):
+	sid = None
 	try:
 		while True:
 			for line in iter(scr.runner.pipe.stdout.readline, b''):
-				scr.listbox.insert('end', line.decode("utf-8") + '\n')
+				buf = line.decode("utf-8")
+				if buf[:7] == '* NaOH ':
+					scr.messages[buf[7:11]] = buf[12:]
+					continue
+
+				scr.listbox.insert('end', buf + '\n')
 				if not scr.scrolllock:
 					scr.listbox.yview('end')
 
@@ -29,6 +36,7 @@ class consoleScreen(Screen):
 
 	def __init__(self, runner):
 		self.runner = runner
+		self.messages = {}
 		Screen.destroy()
 		Screen.reinit()
 		super().__init__()
@@ -57,7 +65,7 @@ class consoleScreen(Screen):
 		fstframe.columnconfigure(3, weight=1)
 		fstframe.columnconfigure(4, weight=20)
 		sndframe.rowconfigure(0, weight=1)
-		Button(sndframe, text='서버 상태', command=self.statusmonitor).grid(row=0, sticky='n')
+		Button(sndframe, text='서버 상태', command=lambda: statusScreen(self)).grid(row=0, sticky='n')
 		self.cmdentry.focus()
 		Screen.root.focus_force()
 
@@ -83,6 +91,3 @@ class consoleScreen(Screen):
 		else:
 			self.scrolllock = True
 			self.slbutton['text'] = 'ScrollLock On'
-
-	def statusmonitor(self):
-		pass

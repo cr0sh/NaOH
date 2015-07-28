@@ -6,7 +6,7 @@ from screen.console import consoleScreen
 from screen.launcher import launcherScreen
 
 def init():
-	# splashScreen(500)
+	# splashScreen(1500)
 	launcherScreen()
 	screen.Screen.root.mainloop()
 
