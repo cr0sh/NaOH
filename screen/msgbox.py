@@ -3,7 +3,7 @@ from tkinter.ttk import *
 from .screen import Screen
 
 class Msgbox:
-	def __init__(self, message, title='알림', callback=None):
+	def __init__(self, message, title='알림', callback=None, grab_focus = False):
 		tk=Tk()
 		tk.resizable(0, 0)
 		self.frame = Frame(tk, border=7)
@@ -13,6 +13,8 @@ class Msgbox:
 		self.callback=callback
 		Button(self.frame, text="확인", command=self.onPress).pack(expand='true')
 		tk.focus_force()
+		if grab_focus:
+			tk.grab_set_global()
 
 	def onPress(self):
 		if self.callback != None:

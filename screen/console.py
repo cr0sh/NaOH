@@ -1,9 +1,10 @@
 import threading, sys, signal
 from .screen import Screen
 from .status import statusScreen
+from .properties import propertiesScreen
 from tkinter.ttk import *
 from tkinter import Listbox, Frame
-from os import read, write, kill, getpid
+from os import read, write, unlink, kill, getpid, sep, listdir, path
 from .msgbox import Msgbox
 from time import sleep
 
@@ -66,6 +67,8 @@ class consoleScreen(Screen):
 		fstframe.columnconfigure(4, weight=20)
 		sndframe.rowconfigure(0, weight=1)
 		Button(sndframe, text='서버 상태', command=lambda: statusScreen(self)).grid(row=0, sticky='n')
+		Button(sndframe, text='설정 편집', command=lambda: propertiesScreen(self.runner.workdir + sep + 'server.properties')).grid(row=1, sticky='n')
+		Button(sndframe, text='덤프 삭제', command=self.removeDumps).grid(row=2, sticky='n')
 		self.cmdentry.focus()
 		Screen.root.focus_force()
 
@@ -91,3 +94,17 @@ class consoleScreen(Screen):
 		else:
 			self.scrolllock = True
 			self.slbutton['text'] = 'ScrollLock On'
+
+	def removeDumps(self):
+		files = [f for f in listdir(self.runner.workdir) if path.isfile(path.join(self.runner.workdir, f)) and f[0:9] =='CrashDump']
+		for f in files:
+			unlink(path.join(self.runner.workdir, f))
+
+		self.listbox.insert('end', '')
+		if len(files) > 0:
+			self.listbox.insert('end', '** %d개의 크래시 덤프들이 삭제되었습니다' % len(files))
+		else:
+			self.listbox.insert('end', '** 삭제할 크래시 덤프가 없습니다.')
+		self.listbox.insert('end', '')
+		if not self.scrolllock:
+			self.listbox.yview('end')

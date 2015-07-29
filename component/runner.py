@@ -21,7 +21,7 @@ class Runner:
 		block = False
 		if not os.path.isfile(runtime.replace(r"\\", r"\\\\")) or not os.path.isfile(code.replace(r"\\", r"\\\\")):
 			block = True
-			Msgbox("지정한 파일을 찾을 수 없습니다: \n%s\n%s" % (runtime.replace(r"\\", r"\\\\"), code.replace(r"\\", r"\\\\")), "오류", lambda: sys.exit(1))
+			Msgbox("지정한 파일 또는 경로를 찾을 수 없습니다.", "오류", lambda: sys.exit(1))
 
 		if not block:
 			self.runtime = runtime
@@ -30,8 +30,11 @@ class Runner:
 			self.pipe = Popen([runtime, code], cwd=workdir, stdout=PIPE, stdin=PIPE, bufsize=1, close_fds=posix)
 
 	def close(self):
-		self.pipe.stdout.close()
-		self.pipe.stdin.close()
+		try:
+			self.pipe.stdout.close()
+			self.pipe.stdin.close()
+		except:
+			pass
 
 	def killAll(self):
 		try:

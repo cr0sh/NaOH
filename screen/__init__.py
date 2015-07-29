@@ -1,1 +1,1 @@
-__all__ = ['console', 'independentScreen', 'launcher', 'msgbox', 'screen', 'splash', 'status']
+__all__ = ['console', 'independentScreen', 'launcher', 'msgbox', 'properties', 'screen', 'splash', 'status']

@@ -3,7 +3,7 @@ from .msgbox import Msgbox
 from global_var import Global
 from tkinter.ttk import *
 from tkinter.filedialog import askopenfilename, askdirectory
-from os import path, unlink
+from os import path, unlink, path
 from sys import exit
 import json, logger
 from .console import consoleScreen
@@ -83,4 +83,6 @@ class launcherScreen(Screen):
 	def start(self):
 		with open(path.join(path.dirname(path.dirname(path.realpath(__file__))), 'config.json'), 'w+') as js:
 			json.dump({'runtime_file': self.runtimeentry.get(), 'pocketmine_code': self.targetentry.get(), 'working_dir': self.cwdentry.get()}, js)
+		(runtime, target, cwd) = (self.runtimeentry.get(), self.targetentry.get(), self.cwdentry.get())
+
 		self.runner = Runner(self.runtimeentry.get(), self.targetentry.get(), self.cwdentry.get())

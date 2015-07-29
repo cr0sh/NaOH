@@ -10,14 +10,13 @@ class independentScreen():
 		self.root = Tk()
 		self.root.protocol("WM_DELETE_WINDOW", self.quit)
 		self.root.resizable(0, 0)
+		self.root.focus_force()
 		independentScreen.screenDict[self._name()] = self
 
 	def _name(self):
 		return self.__class__.__name__
 
 	def _available(self):
-		print(independentScreen.screenDict)
-		print(self._name() in independentScreen.screenDict and isinstance(independentScreen.screenDict[self._name()], type(self)))
 		return self._name() in independentScreen.screenDict and isinstance(independentScreen.screenDict[self._name()], type(self))
 
 	def quit(self):
