@@ -1,6 +1,6 @@
 import sys, os, time, global_var, signal
 from multiprocessing import Queue
-from subprocess import PIPE, Popen
+from subprocess import PIPE, Popen, STARTUPINFO, STARTF_USESHOWWINDOW
 from threading import Thread
 from screen.msgbox import Msgbox
 from screen.console import consoleScreen
@@ -27,7 +27,9 @@ class Runner:
 			self.runtime = runtime
 			self.target = code
 			posix = 'posix' in sys.builtin_module_names
-			self.pipe = Popen([runtime, code], cwd=workdir, stdout=PIPE, stdin=PIPE, bufsize=1, close_fds=posix)
+			si = STARTUPINFO()
+			si.dwFlags |= STARTF_USESHOWWINDOW
+			self.pipe = Popen([runtime, code], cwd=workdir, stdout=PIPE, stdin=PIPE, bufsize=1, close_fds=posix, startupinfo=si)
 
 	def close(self):
 		try:
