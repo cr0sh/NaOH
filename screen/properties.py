@@ -73,6 +73,7 @@ class propertiesScreen(independentScreen):
 	def edit_properties(self, dummy):
 		(key, value, description) = self.table.item(self.table.selection()[0])['values']
 		self.window = Tk()
+		self.window.title('설정 편집: %s' % key)
 		self.window.grab_set_global()
 		self.valueEntry = Entry(self.window)
 		self.valueEntry.insert(0, value)
@@ -80,7 +81,9 @@ class propertiesScreen(independentScreen):
 		self.valueEntry.grid(row=0, column=1, columnspan=3, sticky='nwe')
 		self.valueEntry.focus_force()
 		# self.valueEntry.bind('<Enter>', self.binder)
-		self.key = Label(self.window, text=description.replace('. ', '.\n'), justify='left')
+		if description == '':
+			description = '표시할 도움말이 없습니다.'
+		self.key = Label(self.window, text=description.replace('. ', '.\n'), justify='center')
 		self.key.grid(row=1, column=0, columnspan=4,sticky='news')
 		Button(self.window, text='저장', command=lambda: self.set_properties(key, self.valueEntry.get())).grid(row=2, column=0, columnspan=4, sticky='new')
 		self.window.mainloop()
